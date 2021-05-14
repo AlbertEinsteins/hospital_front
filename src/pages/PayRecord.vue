@@ -49,6 +49,7 @@
             </span>
             <q-badge outline color="primary" v-else>
               暂未付款
+
             </q-badge>
           </q-td>
           <q-td key="payType">{{ props.row.typeName }}</q-td>

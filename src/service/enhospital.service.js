@@ -13,6 +13,22 @@ class EnHospitalService {
       pagesize
     })
   }
+
+  getPatinetsOfNurseActive (username) {
+    return axios.get('nurse/getactivepatients', {
+      params: {
+        username
+      }
+    })
+  }
+
+  getPatientsOfNurseInActive (queryVo, pagenum, pagesize) {
+    return axios.post('nurse/getInactivepatients', {
+      ...queryVo,
+      pagenum,
+      pagesize
+    })
+  }
 }
 
 export default new EnHospitalService()

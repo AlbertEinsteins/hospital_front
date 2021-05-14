@@ -151,6 +151,7 @@ export default {
       }
     },
     reset () {
+      this.clear()
       this.$refs.myF.resetValidation()
     }
   }

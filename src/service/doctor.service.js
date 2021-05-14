@@ -52,6 +52,22 @@ class DoctorService {
       pagesize
     })
   }
+
+  getMedicalAdvice (hid) {
+    return axios.get('doc/getAdviceItemsByHid', {
+      params: {
+        hid
+      }
+    })
+  }
+
+  addAdviceItem (hid, username, item) {
+    return axios.post('doc/addAdviceItem', {
+      hid,
+      username,
+      data: item
+    })
+  }
 }
 
 export default new DoctorService()

@@ -171,11 +171,13 @@ export default {
         .then(resp => {
           const { data: res } = resp
           if (res.code === 10000) {
-            this.$message.success('支付成功，状态已更改(已支付/已返还)')
+            this.$message.success(`成功支付${this.allCost}元，状态已更改(已支付/已返还)`)
             this.hid = ''
             this.cost = []
             this.rtn = []
-            this.isShowSum = false
+            setTimeout(() => {
+              this.isShowSum = false
+            }, 2000)
             return
           }
           this.$message.info(`信息提示：${res.message}`)

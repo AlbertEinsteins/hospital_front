@@ -5,11 +5,11 @@
         <div class="row q-gutter-lg">
 
           <q-input v-model="queryVo.hid" class="col" label="住院号" dense></q-input>
-          <q-input class="col" label="住院开始日期" v-model="queryVo.startTime" dense>
+          <q-input class="col" label="住院开始日期" v-model="startTStr" dense>
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date minimal v-model="queryVo.startTime">
+                  <q-date minimal v-model="startTStr">
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -18,11 +18,11 @@
               </q-icon>
             </template>
           </q-input>
-          <q-input class="col" label="住院开始日期" v-model="queryVo.endTime" dense>
+          <q-input class="col" label="住院结束日期" v-model="endTStr" dense>
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date minimal v-model="queryVo.endTime">
+                  <q-date minimal v-model="endTStr">
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -36,7 +36,8 @@
         </div>
       </div>
       <q-card class="q-mt-md">
-        <q-table title="往期住院历史"
+        <q-table title="过往护理病人"
+          :loading="loading"
           :data="data" :columns="columns">
 
        </q-table>
@@ -46,28 +47,35 @@
 
 <script>
 import CardHeader from 'src/components/CardHeader.vue'
-import DoctorService from 'src/service/doctor.service'
 
 import { date } from 'quasar'
+import EnhospitalService from 'src/service/enhospital.service'
 
 export default {
   components: { CardHeader },
-  name: 'RecordPatient',
+  name: 'RecordNursePatients',
   data () {
     return {
+      loading: false,
       queryVo: {
         hid: '',
+        patientName: '',
+        username: '',
         startTime: '',
         endTime: ''
       },
+      startTStr: '',
+      endTStr: '',
       pageConfig: {
         pagenum: 1,
         pagesize: 10
       },
       columns: [
+        { lable: '123', name: 'index', field: 'index' },
         { label: '住院号', name: 'hid', align: 'left', field: 'hid' },
         { label: '姓名', name: 'name', align: 'left', field: 'personName' },
-        { label: '科室', name: 'id', align: 'left', field: 'name' },
+        { label: '科室', name: 'typeName', align: 'left', field: 'typeName' },
+        { label: '主治医生', name: 'dName', align: 'left', field: 'doctorName' },
         { label: '房间号', name: 'wid', align: 'left', field: 'wid' },
         { label: '入院情况', name: 'body_status', align: 'left', field: 'body_status' },
         { label: '入院时间', name: 'enroll_time', align: 'left', field: 'enroll_time' },
@@ -82,17 +90,24 @@ export default {
   },
   methods: {
     getData () {
-      const startTStr = date.formatDate(this.queryVo.startTime, 'YYYY-MM-DD HH:mm:ss')
-      const endTStr = date.formatDate(this.queryVo.endTime, 'YYYY-MM-DD HH:mm:ss')
-      DoctorService.getInActivePatients(this.queryVo.hid, this.currentUser.username,
-        startTStr, endTStr, this.pageConfig.pagenum, this.pageConfig.pagesize
+      this.loading = true
+      this.queryVo.startTime = date.formatDate(this.startTStr, 'YYYY-MM-DD HH:mm:ss')
+      this.queryVo.endTime = date.formatDate(this.endTStr, 'YYYY-MM-DD HH:mm:ss')
+      this.queryVo.username = this.currentUser.username
+      EnhospitalService.getPatientsOfNurseInActive(this.queryVo,
+        this.pageConfig.pagenum, this.pageConfig.pagesize
       ).then(resp => {
         const { data: res } = resp
         console.log(res)
         if (res.code === 10000) {
           this.data = res.data.records
+          this.data.forEach((row, index) => {
+            row.index = index + 1
+          })
+          this.loading = false
           return
         }
+        this.loading = false
         this.$message.info(`${res.message}`)
       }).catch(() => { this.$message.warn('Server Error') })
     }

@@ -14,13 +14,13 @@
 </template>
 
 <script>
-import DoctorService from 'src/service/doctor.service'
 import PatientCard from 'src/components/PatientCard.vue'
 import CardHeader from 'src/components/CardHeader.vue'
+import EnhospitalService from 'src/service/enhospital.service'
 
 export default {
   components: { PatientCard, CardHeader },
-  name: 'MyPatient',
+  name: 'NursePatients',
   data () {
     return {
       pageConfig: {
@@ -36,12 +36,11 @@ export default {
   methods: {
     getPageResult () {
       const { username } = this.currentUser
-      const isActive = 1
-      DoctorService.getInfo(username, isActive,
+      EnhospitalService.getPatinetsOfNurseActive(username,
         this.pageConfig.pagenum, this.pageConfig.pagesize)
         .then(resp => {
           const { data: res } = resp
-          console.log(res.data.records)
+          console.log(res.data.records[0])
           if (res.code === 10000) {
             this.data = res.data.records
             return

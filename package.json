@@ -2,7 +2,7 @@
   "name": "hospitalized",
   "version": "0.0.1",
   "description": "毕设",
-  "productName": "医院管理系统",
+  "productName": "住院管理系统",
   "author": "jff",
   "private": true,
   "scripts": {

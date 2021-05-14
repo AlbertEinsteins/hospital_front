@@ -70,7 +70,8 @@
 
     <q-page-container>
       <keep-alive :exclude="['PatientStatistic', 'WardStatistic', 'MedicationStock',
-        'MedicationEnrollSearch', 'OutHospitalizedSearch', 'EnHospitalizedSearch', 'PaySearch'  ]">
+        'MedicationEnrollSearch', 'OutHospitalizedSearch', 'EnHospitalizedSearch', 'PaySearch',
+        'MedicalAdvice', 'PayRecord']">
         <router-view class="q-pa-xs"/>
       </keep-alive>
     </q-page-container>

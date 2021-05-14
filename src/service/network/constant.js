@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000/'
+const API_URL = 'http://42.193.109.34/'
 export {
   API_URL
 }

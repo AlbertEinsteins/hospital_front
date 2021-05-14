@@ -27,7 +27,8 @@
 
             <q-td key="price_after" class="flex content-center" :props="props">
               {{ props.row.price }}
-              <q-popup-edit @save="(val, initVal) => changePrice(props.row, initVal)" v-model.number="props.row.price" title="Update Price" buttons>
+              <q-popup-edit @save="(val, initVal) => changePrice(props.row, initVal)"
+                v-model.number="props.row.price" title="Update Price" buttons>
                 <q-input type="number" v-model="props.row.price" dense autofocus />
               </q-popup-edit>
             </q-td>

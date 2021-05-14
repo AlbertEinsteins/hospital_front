@@ -28,11 +28,13 @@ const routes = [
       { path: '/doc_search', component: () => import('../pages/DoctorSearch.vue') },
       { path: '/log', component: () => import('../pages/Systemlog.vue') },
       { path: '/mypatient', component: () => import('../pages/MyPatient.vue') },
-      { path: '/record_patient', component: () => import('../pages/RecordPatient.vue') }
+      { path: '/record_patient', component: () => import('../pages/RecordPatient.vue') },
+      { path: '/nurse_patient', component: () => import('../pages/NursePatients.vue') },
+      { path: '/nurse_repatient', component: () => import('../pages/RecordNursePatients.vue') },
+      { path: '/medical_advice', component: () => import('../pages/MedicalAdvice.vue') }
     ]
   },
   { path: '/login', component: () => import('../pages/Login.vue') },
-
   // Always leave this as last one,
   // but you can also remove it
   {

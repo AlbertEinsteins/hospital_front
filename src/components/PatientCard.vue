@@ -62,6 +62,10 @@
           src="https://cdn.quasar.dev/img/parallax2.jpg"
         />
       </q-card-section>
+      <q-separator/>
+      <q-card-actions style="padding: 5px;">
+        <q-btn flat color="primary" @click="lookUp">查看医嘱</q-btn>
+      </q-card-actions>
     </q-card>
   </div>
 </template>
@@ -75,6 +79,25 @@ export default {
   props: ['patient'],
   data () {
     return {
+    }
+  },
+  created () {
+    console.log(this.patient)
+  },
+  methods: {
+    lookUp () {
+      this.$router.push({
+        path: '/medical_advice',
+        query: {
+          hid: this.patient.hid,
+          patient: {
+            name: this.patient.personName,
+            typeName: this.patient.name,
+            wid: this.patient.wid,
+            sid: this.patient.sid
+          }
+        }
+      })
     }
   }
 }

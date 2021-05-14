@@ -93,6 +93,11 @@
               <q-input class="col-4" label="入院状况" v-model="enhospital.bodyStatus"
                 placeholder="输入真实情况即可" dense></q-input>
             </div>
+            <div class="row q-pt-sm">
+              <q-select class="col-4" label="选择护理护士" dense
+                v-model="enhospital.nurseId" :options="options.nurseList"
+                option-label="fullname" option-value="uid" emit-value map-options></q-select>
+            </div>
             <div class="q-gutter-md row  q-pt-sm">
               <q-input class="col-4" label="紧急联系人" v-model="enhospital.emergeName" dense></q-input>
               <q-input class="col-4" label="手机号" v-model="enhospital.emergePhone" dense></q-input>
@@ -124,6 +129,7 @@ import EnHospitalService from '../service/enhospital.service.js'
 
 import { idCardNoUtil } from '../utils/ididentity.js'
 import { date } from 'quasar'
+import NurseService from 'src/service/nurse.service.js'
 export default {
   name: 'EnHospitalizedEnroll',
   components: { CardHeader },
@@ -139,7 +145,8 @@ export default {
         sexs: [{ label: '男', value: 1 }, { label: '女', value: 0 }],
         nations: [],
         isMarried: [{ label: '未婚', value: 0 }, { label: '已婚', value: 0 }],
-        sickbeds: []
+        sickbeds: [],
+        nurseList: []
       },
 
       tid: '',
@@ -161,7 +168,8 @@ export default {
         sid: '',
         did: '',
         enrollTime: '',
-        isActive: 1
+        isActive: 1,
+        nurseId: ''
       },
       filterDocs: [],
       filterWards: [],
@@ -212,6 +220,7 @@ export default {
       this.getWardTypes()
       this.getWards()
       this.getNations()
+      this.getNurseList()
     },
     getDoctorTypes () {
       DoctorTypeService.getDocTypes()
@@ -255,6 +264,15 @@ export default {
           const { data: res } = resp
           if (res.code === 10000) {
             this.options.nations = res.data
+          }
+        })
+    },
+    getNurseList () {
+      NurseService.getNurses()
+        .then(resp => {
+          const { data: res } = resp
+          if (res.code === 10000) {
+            this.options.nurseList = res.data
           }
         })
     },
