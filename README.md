@@ -1,6 +1,6 @@
 # Quasar App (hospitalized)
 
-毕设
+毕设前台
 
 ## Install the dependencies
 ```bash
